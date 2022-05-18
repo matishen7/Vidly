@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using Vidly.Models;
 using Vidly.ViewModels;
@@ -21,7 +20,7 @@ namespace Vidly.Controllers
                 Movie = movie,
                 Customers = customers
             };
-            return View(randomMovieVM);
+            return View("Random", randomMovieVM);
         }
 
         public ActionResult Edit(int id)
@@ -29,15 +28,17 @@ namespace Vidly.Controllers
             return Content("Id = " + id);
         }
 
-        public ActionResult Index(int? pageIndex, string sortBy)
+        //[Route("movies")]
+        public ActionResult Index()
         {
-            if (!pageIndex.HasValue)
-                pageIndex = 1;
-            if (String.IsNullOrEmpty(sortBy))
-                sortBy = "Name";
-
-            return Content(String.Format("pageIndex = {0}, sortBy = {1}", pageIndex, sortBy));
+            var movies = new List<Movie>()
+            {
+                new Movie() { Name = "Shrek!"},
+                new Movie() { Name = "Wall-e"},
+            };
+            return View("Index", movies);
         }
+
         [Route("movies/released/{year}/{month:regex(\\d{2}):range(1,12)}")]
         public ActionResult ByReleaseDate(int year, int month)
         {
