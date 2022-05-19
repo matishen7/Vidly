@@ -1,0 +1,32 @@
+﻿@model Vidly.Models.Movie
+@{
+    ViewBag.Title = "Movie Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Movies</h2>
+
+@if (@Model != null)
+{
+    <h2>@Model.Name</h2>
+    <ul class="list-group">
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            Genre: @Model.Genre.Name
+        </li>
+
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            Release Date : @Model.ReleaseDate
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            Added Date : @Model.DateAdded
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            Number In Stock : @Model.NumberInStock
+        </li>
+    </ul>
+
+}
+else
+{
+    <text>No such movie!</text>
+}
