@@ -25,7 +25,7 @@ namespace Vidly.Controllers
         [Route("Details/{id}")]
         public ActionResult Details(int id)
         {
-            var customer = _context.Customers.FirstOrDefault(c => c.Id == id);
+            var customer = _context.Customers.Include(c => c.MembershipType).ToList().FirstOrDefault(c => c.Id == id);
             return View("Details", customer);
         }
     }
