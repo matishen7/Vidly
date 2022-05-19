@@ -6,14 +6,19 @@
 
 <h2>Movies</h2>
 
-    <table>
+<table>
+    <tr>
+        <th>Movie</th>
+    </tr>
+
+    @foreach (var movie in Model)
+    {
         <tr>
-            <th>Movie</th>
+            <td>
+                @movie.Name
+            </td>
         </tr>
-        <tr>
-            <td>Alfreds Futterkiste</td>
-            <td>Maria Anders</td>
-            <td>Germany</td>
-        </tr>
-    </table>
+    }
+
+</table>
 
