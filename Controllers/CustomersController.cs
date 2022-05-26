@@ -38,13 +38,18 @@ namespace Vidly.Controllers
             {
                 MembershipTypes = membershipTypes
             };
-            return View("Create", newCustomerVM);
+            return View("New", newCustomerVM);
         }
 
         [HttpPost]
         public ActionResult Create(Customer customer)
         {
-            return View(customer);
+            if (customer != null)
+            {
+                _context.Customers.Add(customer);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index", "Customers");
         }
     }
 }
