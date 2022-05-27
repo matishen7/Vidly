@@ -42,13 +42,13 @@ namespace Vidly.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Customer customer)
+        public ActionResult Create(NewCustomerVM customer)
         {
-            if (customer != null)
-            {
-                _context.Customers.Add(customer);
-                _context.SaveChanges();
-            }
+            //if (customer != null)
+            //{
+            //    _context.Customers.Add(customer);
+            //    _context.SaveChanges();
+            //}
             return RedirectToAction("Index", "Customers");
         }
     }

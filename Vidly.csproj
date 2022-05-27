@@ -232,6 +232,14 @@
     <Compile Include="Migrations\202205192212236_PopulateMovies.designer.cs">
       <DependentUpon>202205192212236_PopulateMovies.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202205262219296_AddMembershipTypeId.cs" />
+    <Compile Include="Migrations\202205262219296_AddMembershipTypeId.designer.cs">
+      <DependentUpon>202205262219296_AddMembershipTypeId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202205262236557_ARemoveMembershipTypeId.cs" />
+    <Compile Include="Migrations\202205262236557_ARemoveMembershipTypeId.designer.cs">
+      <DependentUpon>202205262236557_ARemoveMembershipTypeId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -373,6 +381,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202205192212236_PopulateMovies.resx">
       <DependentUpon>202205192212236_PopulateMovies.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205262219296_AddMembershipTypeId.resx">
+      <DependentUpon>202205262219296_AddMembershipTypeId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205262236557_ARemoveMembershipTypeId.resx">
+      <DependentUpon>202205262236557_ARemoveMembershipTypeId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
