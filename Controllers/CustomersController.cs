@@ -34,24 +34,48 @@ namespace Vidly.Controllers
         public ActionResult New()
         {
             var membershipTypes = _context.MembershipTypes.ToList();
-            var newCustomerVM = new NewCustomerVM()
+            var newCustomerVM = new CustomerFormViewModel()
             {
                 MembershipTypes = membershipTypes
             };
-            return View("New", newCustomerVM);
+            return View("CustomerForm", newCustomerVM);
         }
 
         [HttpPost]
-        public ActionResult Create(Customer customer)
+        public ActionResult Save(Customer customer)
         {
-            if (customer != null)
+            var membershipType = _context.MembershipTypes.ToList().FirstOrDefault(a => a.Id == customer.MembershipType.Id);
+            if (customer.Id == 0)
             {
-                var membershipType = _context.MembershipTypes.ToList().FirstOrDefault(a => a.Id == customer.MembershipType.Id);
                 customer.MembershipType = membershipType;
                 _context.Customers.Add(customer);
-                _context.SaveChanges();
             }
+            else
+            {
+                var customerInDb = _context.Customers.Single(x => x.Id == customer.Id);
+
+                customerInDb.Name = customer.Name;
+                customerInDb.Birthdate = customer.Birthdate;
+                customerInDb.MembershipType = membershipType;
+                customerInDb.IsSubscribedToNews = customer.IsSubscribedToNews;
+            }
+            _context.SaveChanges();
             return RedirectToAction("Index", "Customers");
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var customer = _context.Customers.SingleOrDefault(a => a.Id == id);
+            if (customer == null)
+                return HttpNotFound();
+
+            var viewModel = new CustomerFormViewModel()
+            {
+                Customer = customer,
+                MembershipTypes = _context.MembershipTypes.ToList()
+            };
+
+            return View("CustomerForm", viewModel);
         }
     }
 }
