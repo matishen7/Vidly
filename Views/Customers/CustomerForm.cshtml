@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>New Customer</h2>
+<h2>Customer Form</h2>
 
 @using (Html.BeginForm("Save", "Customers"))
 {
@@ -27,7 +27,10 @@
         </label>
     </div>
 
-    @Html.HiddenFor(m=>m.Customer.Id)
+    @Html.HiddenFor(m => m.Customer.Id)
     <button type="submit" class="btn btn-primary">Save</button>
 }
-
+@using (@Html.BeginForm("Index", "Customers"))
+{
+    <button type="submit" class="btn btn-primary">Cancel</button>
+}

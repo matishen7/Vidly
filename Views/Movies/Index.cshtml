@@ -5,31 +5,34 @@
 }
 
 <h2>Movies</h2>
-
+@using (@Html.BeginForm("New", "Movies"))
+{
+    <button type="submit" class="btn btn-primary">Add movie</button>
+}
 @if (Model.Count == 0)
 {
-<text>We don't have any movies yet.</text>
+    <text>We don't have any movies yet.</text>
 }
 else
 {
-<table class="table table-bordered table-hover">
-    <thead>
-        <tr>
-            <th>Movie</th>
-            <th>Genre</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var movie in Model)
-        {
+    <table class="table table-bordered table-hover">
+        <thead>
             <tr>
-                <td>@Html.ActionLink(movie.Name, "Details", "Movies", new { id = movie.Id }, null)</td>
-                <td>@movie.Genre.Name</td>
+                <th>Movie</th>
+                <th>Genre</th>
             </tr>
-        }
-    </tbody>
+        </thead>
+        <tbody>
+            @foreach (var movie in Model)
+            {
+                <tr>
+                    <td>@Html.ActionLink(movie.Name, "Edit", "Movies", new { id = movie.Id }, null)</td>
+                    <td>@movie.Genre.Name</td>
+                </tr>
+            }
+        </tbody>
 
 
-</table>
+    </table>
 }
 
