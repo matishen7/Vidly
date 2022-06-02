@@ -4,6 +4,7 @@ namespace Vidly.Models
 {
     public class Genre
     {
+        [Required(ErrorMessage = "Genre is required.")]
         public byte Id { get; set; }
 
         [Required]

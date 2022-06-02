@@ -31,11 +31,16 @@
             @Html.CheckBoxFor(m => m.Customer.IsSubscribedToNews) Subscribed to news?
         </label>
     </div>
-
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.Customer.Id)
     <button type="submit" class="btn btn-primary">Save</button>
 }
 @using (@Html.BeginForm("Index", "Customers"))
 {
     <button type="submit" class="btn btn-primary">Cancel</button>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval");
 }
