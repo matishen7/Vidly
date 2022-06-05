@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using Vidly.Models;
@@ -41,21 +42,12 @@ namespace Vidly.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Save(Movie movie)
         {
-            if (!ModelState.IsValid)
-            {
-                var viewModel = new MovieFormViewModel()
-                {
-                    Movie = movie,
-                    Genres = _context.Genres.ToList(),
-                };
-
-                return View("MovieForm", viewModel);
-            }
 
             var genre = _context.Genres.ToList().FirstOrDefault(a => a.Id == movie.Genre.Id);
             if (movie.Id == 0)
             {
                 movie.Genre = genre;
+                movie.DateAdded = DateTime.Today;
                 _context.Movies.Add(movie);
             }
             else
@@ -65,7 +57,6 @@ namespace Vidly.Controllers
                 movieInDb.Name = movie.Name;
                 movieInDb.ReleaseDate = movie.ReleaseDate;
                 movieInDb.Genre = genre;
-                movieInDb.DateAdded = movie.DateAdded;
                 movieInDb.NumberInStock = movie.NumberInStock;
             }
             _context.SaveChanges();
