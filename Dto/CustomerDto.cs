@@ -5,6 +5,7 @@ namespace Vidly.Dto
 {
     public class CustomerDto
     {
+        public int Id { get; set; }
 
         [Required]
         [StringLength(255)]
