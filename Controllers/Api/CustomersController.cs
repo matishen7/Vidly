@@ -2,7 +2,6 @@
 using System;
 using System.Data.Entity;
 using System.Linq;
-using System.Net;
 using System.Web.Http;
 using Vidly.Dto;
 using Vidly.Models;
@@ -58,20 +57,19 @@ namespace Vidly.Controllers.Api
 
 
         [HttpPut]
-        public CustomerDto UpdateCustomer(int id, CustomerDto customerDto)
+        public IHttpActionResult UpdateCustomer(int id, CustomerDto customerDto)
         {
             if (!ModelState.IsValid)
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return BadRequest();
 
             var customerInDb = _context.Customers.Include(c => c.MembershipType).SingleOrDefault(x => x.Id == id);
 
             if (customerInDb == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
 
             var membershipType = _context.MembershipTypes.SingleOrDefault(x => x.Id == customerDto.MembershipTypeId);
             if (membershipType.Name == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-
+                return NotFound();
             Mapper.Map(customerDto, customerInDb);
             //customerInDb.Name = customerDto.Name;
             //customerInDb.Birthdate = customerDto.Birthdate;
@@ -79,19 +77,20 @@ namespace Vidly.Controllers.Api
             //customerInDb.MembershipType = membershipType;
 
             _context.SaveChanges();
-            return customerDto;
+            return Ok(customerDto);
         }
 
         [HttpDelete]
-        public void DeleteCustomer(int id)
+        public IHttpActionResult DeleteCustomer(int id)
         {
             var customerInDb = _context.Customers.Include(c => c.MembershipType).SingleOrDefault(x => x.Id == id);
 
             if (customerInDb == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
 
             _context.Customers.Remove(customerInDb);
             _context.SaveChanges();
+            return Ok();
         }
     }
 }
