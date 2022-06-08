@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using System.Collections.Generic;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -18,31 +18,34 @@ namespace Vidly.Controllers.Api
             _context = new ApplicationDbContext();
         }
 
-        public IEnumerable<CustomerDto> GetCustomers()
+        [HttpGet]
+        public IHttpActionResult GetCustomers()
         {
-            return _context.Customers.Include(c => c.MembershipType).ToList().Select(Mapper.Map<Customer, CustomerDto>);
+            var result = _context.Customers.Include(c => c.MembershipType).ToList().Select(Mapper.Map<Customer, CustomerDto>);
+            return Ok(result);
         }
 
-        public CustomerDto GetCustomer(int id)
+        [HttpGet]
+        public IHttpActionResult GetCustomer(int id)
         {
             var customer = _context.Customers.Include(c => c.MembershipType).SingleOrDefault(x => x.Id == id);
 
             if (customer == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            return Mapper.Map<Customer, CustomerDto>(customer);
+                return NotFound();
+            return Ok(Mapper.Map<Customer, CustomerDto>(customer));
         }
 
         [HttpPost]
-        public CustomerDto CreateCustomer(CustomerDto customerDto)
+        public IHttpActionResult CreateCustomer(CustomerDto customerDto)
         {
             if (!ModelState.IsValid)
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return BadRequest();
 
             var customer = Mapper.Map<CustomerDto, Customer>(customerDto);
 
             var membershipType = _context.MembershipTypes.SingleOrDefault(x => x.Id == customerDto.MembershipTypeId);
             if (membershipType.Name == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
 
             customer.MembershipType = membershipType;
 
@@ -50,12 +53,12 @@ namespace Vidly.Controllers.Api
             _context.SaveChanges();
             customerDto.Id = customer.Id;
 
-            return customerDto;
+            return Created(new Uri(Request.RequestUri + "/" + customer.Id), customerDto);
         }
 
 
         [HttpPut]
-        public void UpdateCustomer(int id, CustomerDto customerDto)
+        public CustomerDto UpdateCustomer(int id, CustomerDto customerDto)
         {
             if (!ModelState.IsValid)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
@@ -76,6 +79,7 @@ namespace Vidly.Controllers.Api
             //customerInDb.MembershipType = membershipType;
 
             _context.SaveChanges();
+            return customerDto;
         }
 
         [HttpDelete]

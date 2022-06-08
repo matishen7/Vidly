@@ -7,9 +7,9 @@ namespace Vidly
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            //routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapMvcAttributeRoutes();
+
 
             //routes.MapRoute("MoviesByReleaseDate",
             //    "movies/released/{year}/{month}",
@@ -20,6 +20,8 @@ namespace Vidly
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapMvcAttributeRoutes();
         }
     }
 }
